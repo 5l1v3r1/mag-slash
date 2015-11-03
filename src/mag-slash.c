@@ -8,8 +8,8 @@
 #include<stdio.h>
 #define MAX_LEN 250 // max length for mag string in bytes
 #define NAME_OFFSET 19 // offset to cardholder's name in string
+void luhn(unsigned short *ccNum);
 void printString(unsigned short *pi,char *pstring, int c); // prototype
-void printChars(char stringChars,int count, int i); // prototype for printing chars
 int main(void){ //main entry point for application
 	printf("Swipe Card now: "); // ask for input
 	unsigned char string[MAX_LEN]; // long byte length for variable cards
@@ -18,13 +18,21 @@ int main(void){ //main entry point for application
 		printf("Track 1 returned an error\n");
 	}else{ // no error for track 1, is it a credit card?
 		if(string[1] == 'B'){ // format code of B for financial/bank
+			unsigned short ccNums[16]; // array to pass to luhn for checking
+			unsigned short k=0; 
+			unsigned short j=0; // counter for pushing elements to array ccNums[]
+			for(int j=2;j<=18;j++){
+				ccNums[k]=string[j] - '0';
+				k++;
+			}
+			luhn(ccNums);
 			printf("PAN: %.16s\n",string+2); // print CC#
 			printf("NAME: "); // print the name
 			//register unsigned short i=NAME_OFFSET; // store counter in CPU register
 			unsigned short i=NAME_OFFSET; // store counter in CPU register
 			while(string[i]!='^'){ // the FS
 				printf("%c",string[i]);
-				i++; // postfix
+				i++;
 			}
 			// Get expiration date:
 			i++; // We still have the register counter. get rid of FS, ^
@@ -41,11 +49,30 @@ int main(void){ //main entry point for application
 		}
 	}
 	return 0;
-}
-void printString(unsigned short *pi,char *pstring, int c){ // print some chars from array pointer, string[]
+} 
+// print some chars from array pointer, string[]
+void printString(unsigned short *pi,char *pstring, int c){
 	for(int k=0;k<c;k++){ // loop and print this many chars
 		printf("%c",pstring[*pi]);
 		(*pi)++; // increment the original pointer, i from main()
+	}
+	return;
+}
+// Luhn Algorithm for verification
+void luhn(unsigned short *ccNum){
+	// add them all up
+	unsigned int sum = 0;
+	for(int i=1;i<16;i++){
+		if(i%2==0){ //even number:
+			sum += ccNum[i]*2;
+		}else{
+			sum += ccNum[i];
+		}
+	}
+	if(sum%10==0){
+		printf("PAN has been verified\n");
+	}else{
+		printf("PAN # is invalid, Try swiping again\n");
 	}
 	return;
 }
