@@ -1,4 +1,7 @@
 #gcc -o mag-slash -ggdb mag-slash.c
+# Makefile for MAG-SLASH 
+# Douglas Berdeaux
+# 2015 WeakNet Labs
 mag-slash:src/mag-slash.c
 	rm -rf bin
 	mkdir bin
