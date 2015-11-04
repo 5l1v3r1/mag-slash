@@ -13,7 +13,11 @@ void printString(unsigned short *pi,char *pstring, int c); // prototype
 int main(void){ //main entry point for application
 	printf("Swipe Card now: "); // ask for input
 	unsigned char string[MAX_LEN]; // long byte length for variable cards
+<<<<<<< HEAD
 	fgets(string,MAX_LEN,stdin); // get string from the card reader
+=======
+	fgets(string,MAX_LEN,stdin); // get string from card reader
+>>>>>>> ba7d732b05323e3e678c3423cfce296692c5ca54
 	if(string[1] == 'E'){ // an error occured if format code is "E"
 		printf("Track 1 returned an error\n");
 	}else{ // no error for track 1, is it a credit card?
@@ -25,7 +29,11 @@ int main(void){ //main entry point for application
 				ccNums[k]=string[j] - '0';
 				k++;
 			}
+<<<<<<< HEAD
 			luhn(ccNums); // verify the data
+=======
+			luhn(ccNums); // verify the card number
+>>>>>>> ba7d732b05323e3e678c3423cfce296692c5ca54
 			printf("PAN: %.16s\n",string+2); // print CC#
 			printf("NAME: "); // print the name
 			//register unsigned short i=NAME_OFFSET; // store counter in CPU register
@@ -63,13 +71,13 @@ void luhn(unsigned short *ccNum){
 	// add them all up
 	unsigned register int sum = 0; // make a total sum amount
 	for(int i=1;i<16;i++){
-		if(i%2==0){ //even number:
+		if(i%2==0){ // every other number gets doubled
 			sum += ccNum[i]*2;
 		}else{
 			sum += ccNum[i];
 		}
 	}
-	if(sum%10==0){
+	if(sum%10==0){ // if it's a multiple of 10, it's probably an actual number
 		printf("PAN has been verified\n");
 	}else{
 		printf("PAN # is invalid, Try swiping again\n");
