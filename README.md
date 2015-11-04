@@ -7,7 +7,7 @@ Magnetic Card Swipe Reader String Decoder - This application was written and tes
 <li>Is recognized as a human input device, like a keyboard</li>
 </ul>
 # Magnetic Strip Data
-Some notes about the data on the strip. There are different "tracks" on per strip and there can be a 7 bit track, which can contain alpha-numneric characters, and there can be a 5 bit track which can only contain digits. The details are pulled from the first track,
+Some notes about the data on the strip. There are different "tracks" on per strip and there can be a 7 bit track, which can contain alpha-numneric characters, and there can be a 5 bit track which can only contain digits. The data in each track is surrounded by "sentinel" characters and is delimited with either <code>%data($|^|=)data?</code> for 7 bit tracks and <code>;data(=)data?</code> for 5 bit tracks. The details from the CC in MAG-SLASH are pulled from the first track and are described below.
 * Sentinel Character = "%"
 * Format code = "B" for financial/bank cards, State abbreviation for ID/LIC
 * PAN = Primary Account Number
@@ -28,6 +28,11 @@ This application is written in C, with no extra libraries besides the standard i
 * Verifies the cards number using the Luhn Algorithm
 * Reads financial ID Cards
 * Detects track errors
+ * %E? # error - track 1
+ * ...;E? # error - track 2
+ * ;E?+E? # error - both tracks
+ * %E?;E?+E? # Error - three tracks
+
 
 # Build and Install
 <b>Make and Install:</b><br />
