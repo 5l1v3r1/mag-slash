@@ -8,24 +8,24 @@
 #include<stdio.h>
 #define MAX_LEN 250 // max length for mag string in bytes
 #define NAME_OFFSET 19 // offset to cardholder's name in string
-void luhn(unsigned short *ccNum);
+void luhn(unsigned short *ccNum); // function for verifying the number from the swipe
 void printString(unsigned short *pi,char *pstring, int c); // prototype
 int main(void){ //main entry point for application
 	printf("Swipe Card now: "); // ask for input
 	unsigned char string[MAX_LEN]; // long byte length for variable cards
-	fgets(string,MAX_LEN,stdin); // get string
+	fgets(string,MAX_LEN,stdin); // get string from the card reader
 	if(string[1] == 'E'){ // an error occured if format code is "E"
 		printf("Track 1 returned an error\n");
 	}else{ // no error for track 1, is it a credit card?
 		if(string[1] == 'B'){ // format code of B for financial/bank
 			unsigned short ccNums[16]; // array to pass to luhn for checking
-			unsigned short k=0; 
+			unsigned short k=0; // counter for pushing card numbers into ccNums[]
 			unsigned short j=0; // counter for pushing elements to array ccNums[]
 			for(int j=2;j<=18;j++){
 				ccNums[k]=string[j] - '0';
 				k++;
 			}
-			luhn(ccNums);
+			luhn(ccNums); // verify the data
 			printf("PAN: %.16s\n",string+2); // print CC#
 			printf("NAME: "); // print the name
 			//register unsigned short i=NAME_OFFSET; // store counter in CPU register
@@ -61,7 +61,7 @@ void printString(unsigned short *pi,char *pstring, int c){
 // Luhn Algorithm for verification
 void luhn(unsigned short *ccNum){
 	// add them all up
-	unsigned int sum = 0;
+	unsigned register int sum = 0; // make a total sum amount
 	for(int i=1;i<16;i++){
 		if(i%2==0){ //even number:
 			sum += ccNum[i]*2;
