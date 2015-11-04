@@ -1,4 +1,4 @@
-# mag-slash
+# MAG-SLASH
 <img src="https://weaknetlabs.com/images/magslashlogo2.png"/><br /<br />
 Magnetic Card Swipe Reader String Decoder - This application was written and tested with the POSMATE MSR100 Card swipe ($20 USD http://www.amazon.com/gp/product/B00E85TH9I). Some notes about the hardware:
 <ul>
