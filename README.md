@@ -21,6 +21,7 @@ Some notes about the data on the strip. There are different "tracks" on per stri
 * CVV1 (NOT CVV2!) - 3 bytes
 * END sentinel "?"
 * LRC (redundancy Check): 1 byte - I have never seen this yet
+
 # Functions
 This application is written in C, with no extra libraries besides the standard input-output libarary.<br />
 * Reads credit cards (VISA and Mastercard)
